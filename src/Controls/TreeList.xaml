@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SunsetMP.Controls.TreeList">
+    <CollectionView x:Name="List" SelectionMode="None">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="Auto,*,44" ColumnSpacing="8" MinimumHeightRequest="52"
+                      Margin="{Binding Indent}" BackgroundColor="Transparent">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRowTapped" />
+                    </Grid.GestureRecognizers>
+                    <Label Text="{Binding Icon}" FontSize="22" VerticalOptions="Center" Margin="8,0,0,0" />
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                        <Label Text="{Binding Name}" FontSize="15" LineBreakMode="TailTruncation" />
+                        <Label Text="{Binding Subtitle}" FontSize="12" TextColor="#99FFFFFF"
+                               LineBreakMode="TailTruncation" IsVisible="{Binding HasSubtitle}" />
+                    </VerticalStackLayout>
+                    <Button Grid.Column="2" Text="⋮" FontSize="22" Padding="0" HeightRequest="44"
+                            BackgroundColor="Transparent" TextColor="#B3FFFFFF" Clicked="OnMenuClicked" />
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentView>

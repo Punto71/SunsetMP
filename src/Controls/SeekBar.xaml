@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SunsetMP.Controls.SeekBar"
+             HeightRequest="32">
+    <Grid x:Name="Root" HeightRequest="32" Margin="7,0" VerticalOptions="Center" BackgroundColor="Transparent">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnTapped" />
+            <PanGestureRecognizer PanUpdated="OnPan" />
+        </Grid.GestureRecognizers>
+
+        <!-- .progress-bar -->
+        <Border HeightRequest="4" VerticalOptions="Center" StrokeThickness="0" Background="#33FFFFFF">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="2" />
+            </Border.StrokeShape>
+        </Border>
+
+        <!-- .progress-fill -->
+        <Border x:Name="Fill" HeightRequest="4" WidthRequest="0" HorizontalOptions="Start"
+                VerticalOptions="Center" StrokeThickness="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="2" />
+            </Border.StrokeShape>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#667eea" Offset="0" />
+                    <GradientStop Color="#764ba2" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- ползунок -->
+        <Ellipse x:Name="Thumb" WidthRequest="14" HeightRequest="14" Fill="White"
+                 HorizontalOptions="Start" VerticalOptions="Center" InputTransparent="True" />
+    </Grid>
+</ContentView>

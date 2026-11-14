@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SunsetMP.Controls"
+             x:Class="SunsetMP.Controls.SearchBox">
+    <Border Style="{StaticResource Panel}" Padding="14,0,4,0" HeightRequest="44">
+        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+            <Path Fill="#99FFFFFF" Aspect="Uniform" WidthRequest="16" HeightRequest="16" VerticalOptions="Center"
+                  Data="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            <Entry x:Name="Input" Grid.Column="1" FontSize="15" BackgroundColor="Transparent"
+                   ReturnType="Search" VerticalOptions="Center" />
+            <local:IconButton x:Name="ClearBtn" Grid.Column="2" Kind="None" ButtonSize="36" IconSize="12"
+                              IsVisible="False" Clicked="OnClearClicked"
+                              IconData="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+        </Grid>
+    </Border>
+</ContentView>

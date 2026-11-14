@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:SunsetMP.Controls"
+             x:Class="SunsetMP.Pages.PlayerPage"
+             Title="Плейлист">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16,12" RowSpacing="10">
+
+        <!-- .playlist-info -->
+        <Border Grid.Row="0" Style="{StaticResource Panel}" Padding="14,6">
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="{Binding PlaylistTitle}" FontSize="12" TextColor="#99FFFFFF" VerticalOptions="Center" />
+                <controls:IconButton Grid.Column="1" ButtonSize="32" IconSize="16" Kind="Glass"
+                                     IconData="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                     Clicked="OnClearClicked" />
+            </Grid>
+        </Border>
+
+        <!-- Поиск по плейлисту -->
+        <controls:SearchBox Grid.Row="1" Placeholder="Поиск в плейлисте" Text="{Binding SearchText, Mode=TwoWay}" />
+
+        <!-- Плейлист -->
+        <Border Grid.Row="2" Style="{StaticResource Panel}" Padding="6">
+            <CollectionView ItemsSource="{Binding DisplayPlaylist}" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="{Binding EmptyText}"
+                           HorizontalTextAlignment="Center" Margin="16,40" TextColor="#99FFFFFF" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeThickness="0" Background="Transparent" Padding="10,4,2,4" Margin="0,1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsCurrent}" Value="True">
+                                    <Setter Property="Background" Value="#33667eea" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnItemTapped" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto,40" ColumnSpacing="6" MinimumHeightRequest="48">
+                                <VerticalStackLayout VerticalOptions="Center">
+                                    <Label Text="{Binding Title}" FontSize="15" LineBreakMode="TailTruncation">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsCurrent}" Value="True">
+                                                <Setter Property="TextColor" Value="#a5b4fc" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Label Text="{Binding Artist}" FontSize="12" TextColor="#99FFFFFF"
+                                           LineBreakMode="TailTruncation" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding DurationText}" FontSize="12"
+                                       TextColor="#99FFFFFF" VerticalOptions="Center" />
+                                <controls:IconButton Grid.Column="2" ButtonSize="36" IconSize="12" Kind="None"
+                                                     IconData="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                                     Clicked="OnRemoveClicked" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+
+        <!-- .player: информация о треке, прогресс, управление -->
+        <Border Grid.Row="3" Style="{StaticResource GlassCard}" Padding="20,16">
+            <VerticalStackLayout Spacing="8">
+
+                <Grid x:Name="TrackInfo" ColumnDefinitions="64,*" ColumnSpacing="14" BackgroundColor="Transparent">
+                    <Border Style="{StaticResource CoverBox}" WidthRequest="64" HeightRequest="64">
+                        <Label Text="♪" FontSize="34" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                        <Label Text="{Binding NowTitle}" FontSize="18" FontAttributes="Bold"
+                               LineBreakMode="TailTruncation" MaxLines="2" />
+                        <Label Text="{Binding NowArtist}" FontSize="14" TextColor="#B3FFFFFF"
+                               LineBreakMode="TailTruncation" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*" Margin="0,6,0,0">
+                    <Label Text="{Binding PositionText}" FontSize="12" TextColor="#B3FFFFFF" />
+                    <Label Grid.Column="1" Text="{Binding DurationText}" FontSize="12" TextColor="#B3FFFFFF"
+                           HorizontalOptions="End" />
+                </Grid>
+
+                <controls:SeekBar Progress="{Binding Progress}"
+                                  SeekStarted="OnSeekStarted"
+                                  SeekChanged="OnSeekChanged"
+                                  SeekCompleted="OnSeekCompleted" />
+
+                <Grid ColumnDefinitions="*,*,*,*,*" Margin="0,4,0,0">
+                    <controls:IconButton Grid.Column="0" Kind="None" ButtonSize="44" IconSize="18"
+                                         IconData="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"
+                                         Opacity="{Binding ShuffleOpacity}"
+                                         Command="{Binding ToggleShuffleCommand}" />
+                    <controls:IconButton Grid.Column="1" Kind="Glass" ButtonSize="52" IconSize="14"
+                                         IconData="M6 6h2v12H6zm3.5 6l8.5 6V6z"
+                                         Command="{Binding PreviousCommand}" />
+                    <controls:IconButton Grid.Column="2" Kind="Accent" ButtonSize="64" IconSize="18"
+                                         IconData="{Binding PlayPauseIcon}"
+                                         Command="{Binding PlayPauseCommand}" />
+                    <controls:IconButton Grid.Column="3" Kind="Glass" ButtonSize="52" IconSize="14"
+                                         IconData="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"
+                                         Command="{Binding NextCommand}" />
+                    <controls:IconButton Grid.Column="4" Kind="None" ButtonSize="44" IconSize="20"
+                                         IconData="{Binding RepeatIcon}"
+                                         Opacity="{Binding RepeatOpacity}"
+                                         Command="{Binding CycleRepeatCommand}" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

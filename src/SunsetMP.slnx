@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SunsetMP.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

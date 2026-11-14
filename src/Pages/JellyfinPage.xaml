@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:SunsetMP.Controls"
+             x:Class="SunsetMP.Pages.JellyfinPage"
+             Title="Jellyfin">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" Padding="16,12" RowSpacing="10">
+
+        <!-- Форма подключения -->
+        <Border Grid.Row="0" Style="{StaticResource GlassCard}" Padding="20"
+                IsVisible="{Binding IsDisconnected}">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Подключение к Jellyfin" FontSize="18" FontAttributes="Bold" />
+                <Entry Placeholder="Адрес сервера, напр. http://192.168.1.10:8096"
+                       Text="{Binding ServerUrl}" Keyboard="Url" />
+                <Entry Placeholder="Имя пользователя" Text="{Binding UserName}" />
+                <Entry Placeholder="Пароль" Text="{Binding Password}" IsPassword="True" />
+                <Button Text="Подключиться" Style="{StaticResource AccentButton}"
+                        Command="{Binding ConnectCommand}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Шапка после подключения + режим отображения -->
+        <Border Grid.Row="1" Style="{StaticResource Panel}" Padding="16,8" IsVisible="{Binding IsConnected}">
+            <VerticalStackLayout Spacing="4">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Label Text="{Binding ConnectedTo}" FontSize="13" VerticalOptions="Center"
+                           LineBreakMode="TailTruncation" />
+                    <Button Grid.Column="1" Text="Отключиться" Command="{Binding DisconnectCommand}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Label Text="Структура: по папкам на диске" FontSize="13" TextColor="#B3FFFFFF"
+                           VerticalOptions="Center" />
+                    <Switch Grid.Column="1" IsToggled="{Binding FolderMode}"
+                            OnColor="#667eea" ThumbColor="White" VerticalOptions="Center" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Поиск по серверу -->
+        <controls:SearchBox Grid.Row="2" Placeholder="Поиск на сервере Jellyfin"
+                            Text="{Binding SearchText, Mode=TwoWay}" IsVisible="{Binding IsConnected}" />
+
+        <!-- Состояние -->
+        <VerticalStackLayout Grid.Row="3" Spacing="2">
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+            <Label Text="{Binding Error}" TextColor="#f87171" IsVisible="{Binding HasError}" />
+            <Label Text="Ничего не найдено" FontSize="13" TextColor="#99FFFFFF" IsVisible="{Binding NoResults}" />
+            <Label Text="{Binding Status}" FontSize="13" TextColor="#4ade80" IsVisible="{Binding HasStatus}" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="4" Style="{StaticResource Panel}" Padding="6" IsVisible="{Binding IsConnected}">
+            <controls:TreeList x:Name="Tree" />
+        </Border>
+    </Grid>
+</ContentPage>

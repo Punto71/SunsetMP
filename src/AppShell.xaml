@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:pages="clr-namespace:SunsetMP.Pages"
+       x:Class="SunsetMP.AppShell"
+       Shell.NavBarIsVisible="False"
+       Shell.BackgroundColor="#1a1a2e"
+       Shell.TabBarBackgroundColor="#16213e"
+       Shell.TabBarTitleColor="#667eea"
+       Shell.TabBarForegroundColor="#667eea"
+       Shell.TabBarUnselectedColor="#99FFFFFF">
+    <TabBar>
+        <ShellContent Title="Плейлист" Icon="tab_playlist.png" Route="player"
+                      ContentTemplate="{DataTemplate pages:PlayerPage}" />
+        <ShellContent Title="Локальные" Icon="tab_local.png" Route="local"
+                      ContentTemplate="{DataTemplate pages:LocalPage}" />
+        <ShellContent Title="Jellyfin" Icon="tab_jellyfin.png" Route="jellyfin"
+                      ContentTemplate="{DataTemplate pages:JellyfinPage}" />
+    </TabBar>
+</Shell>

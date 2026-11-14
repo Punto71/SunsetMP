@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SunsetMP.App">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!-- Фон и акцент из index.html -->
+            <LinearGradientBrush x:Key="BackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1a1a2e" Offset="0" />
+                <GradientStop Color="#16213e" Offset="1" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="AccentBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#667eea" Offset="0" />
+                <GradientStop Color="#764ba2" Offset="1" />
+            </LinearGradientBrush>
+
+            <!-- Страницы -->
+            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="PlaceholderColor" Value="#80FFFFFF" />
+            </Style>
+
+            <Style TargetType="ActivityIndicator">
+                <Setter Property="Color" Value="#667eea" />
+            </Style>
+
+            <!-- Обычная (стеклянная) кнопка -->
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#33FFFFFF" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="Padding" Value="16,0" />
+                <Setter Property="HeightRequest" Value="40" />
+            </Style>
+
+            <!-- Кнопка с градиентом -->
+            <Style x:Key="AccentButton" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="24" />
+                <Setter Property="HeightRequest" Value="48" />
+            </Style>
+
+            <!-- Карточка «стекло» (.player) -->
+            <Style x:Key="GlassCard" TargetType="Border">
+                <Setter Property="Background" Value="#1AFFFFFF" />
+                <Setter Property="Stroke" Value="#33FFFFFF" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="StrokeShape">
+                    <Setter.Value>
+                        <RoundRectangle CornerRadius="28" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Тёмная плашка (.playlist-info, .status) -->
+            <Style x:Key="Panel" TargetType="Border">
+                <Setter Property="Background" Value="#4D000000" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="StrokeShape">
+                    <Setter.Value>
+                        <RoundRectangle CornerRadius="16" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Обложка (.cover) -->
+            <Style x:Key="CoverBox" TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="StrokeShape">
+                    <Setter.Value>
+                        <RoundRectangle CornerRadius="18" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
