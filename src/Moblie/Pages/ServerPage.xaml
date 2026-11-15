@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:SunsetMP.Controls"
+             x:Class="SunsetMP.Pages.ServerPage"
+             Title="Сервер">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*" Padding="16,12" RowSpacing="10">
+
+        <!-- Форма подключения -->
+        <Border Grid.Row="0" Style="{StaticResource GlassCard}" Padding="20"
+                IsVisible="{Binding IsDisconnected}">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Подключение к серверу" FontSize="18" FontAttributes="Bold" />
+                <Entry Placeholder="Адрес сервера, напр. http://192.168.1.10:5080"
+                       Text="{Binding ServerUrl}" Keyboard="Url" />
+                <Entry Placeholder="Токен" Text="{Binding Token}" IsPassword="True" />
+                <Button Text="Подключиться" Style="{StaticResource AccentButton}"
+                        Command="{Binding ConnectCommand}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Шапка после подключения -->
+        <Border Grid.Row="1" Style="{StaticResource Panel}" Padding="16,8" IsVisible="{Binding IsConnected}">
+            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                <Label Text="{Binding ConnectedTo}" FontSize="13" VerticalOptions="Center"
+                       LineBreakMode="TailTruncation" />
+                <controls:IconButton Grid.Column="1" ButtonSize="36" IconSize="16" Kind="Glass"
+                                     IconData="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+                                     Command="{Binding RefreshCommand}" />
+                <Button Grid.Column="2" Text="Отключиться" Command="{Binding DisconnectCommand}" />
+            </Grid>
+        </Border>
+
+        <!-- Поиск по серверу -->
+        <controls:SearchBox Grid.Row="2" Placeholder="Поиск на сервере"
+                            Text="{Binding SearchText, Mode=TwoWay}" IsVisible="{Binding IsConnected}" />
+
+        <!-- Скачивание -->
+        <Border Grid.Row="3" Style="{StaticResource Panel}" Padding="16,10"
+                IsVisible="{Binding Downloads.IsActive}">
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="6">
+                <Label Text="{Binding Downloads.Text}" FontSize="12" LineBreakMode="MiddleTruncation"
+                       VerticalOptions="Center" />
+                <Button Grid.Column="1" Text="Отмена" FontSize="12" HeightRequest="32"
+                        Command="{Binding Downloads.CancelCommand}" />
+                <ProgressBar Grid.Row="1" Grid.ColumnSpan="2" Progress="{Binding Downloads.Progress}"
+                             ProgressColor="#667eea" />
+            </Grid>
+        </Border>
+
+        <!-- Состояние -->
+        <VerticalStackLayout Grid.Row="4" Spacing="2">
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+            <Label Text="{Binding Error}" TextColor="#f87171" IsVisible="{Binding HasError}" />
+            <Label Text="Ничего не найдено" FontSize="13" TextColor="#99FFFFFF" IsVisible="{Binding NoResults}" />
+            <Label Text="{Binding Status}" FontSize="13" TextColor="#4ade80" IsVisible="{Binding HasStatus}" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="5" Style="{StaticResource Panel}" Padding="6" IsVisible="{Binding IsConnected}">
+            <controls:TreeList x:Name="Tree" />
+        </Border>
+    </Grid>
+</ContentPage>
