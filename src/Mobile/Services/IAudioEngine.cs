@@ -18,7 +18,8 @@ public interface IAudioEngine
     int PositionMs { get; }
     int DurationMs { get; }
 
-    void Play(string uri, string title, string artist, long durationMs);
+    /// <param name="startPositionMs">С какой позиции начать (восстановление после перезапуска приложения)</param>
+    void Play(string uri, string title, string artist, long durationMs, long startPositionMs = 0);
     void Pause();
     void Resume();
     void Stop();

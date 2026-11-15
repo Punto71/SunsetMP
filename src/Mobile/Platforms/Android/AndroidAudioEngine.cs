@@ -28,6 +28,7 @@ public class AndroidAudioEngine : IAudioEngine
     string _title = "", _artist = "", _currentUrl = "";
     string? _nextUrl;
     long _trackDuration;
+    long _startPositionMs;         // с какой позиции начать воспроизведение
 
     public event Action? Prepared;
     public event Action? Completed;
@@ -79,10 +80,11 @@ public class AndroidAudioEngine : IAudioEngine
         }
     });
 
-    public void Play(string uri, string title, string artist, long durationMs)
+    public void Play(string uri, string title, string artist, long durationMs, long startPositionMs = 0)
     {
         ReleasePlayer();
         _title = title; _artist = artist; _trackDuration = durationMs;
+        _startPositionMs = startPositionMs;
         _currentUrl = uri;
         _wantPlay = true;
         var token = ++_playToken;
@@ -147,6 +149,11 @@ public class AndroidAudioEngine : IAudioEngine
         {
             if (_player != p) return;
             _prepared = true;
+            if (_startPositionMs > 0)
+            {
+                try { p.SeekTo((int)_startPositionMs); } catch { }
+                _startPositionMs = 0;
+            }
             if (_wantPlay) p.Start();
             Push(_wantPlay);          // обновить длительность в уведомлении
             Prepared?.Invoke();
